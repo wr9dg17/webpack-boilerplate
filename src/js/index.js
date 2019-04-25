@@ -1,11 +1,12 @@
-import "../css/bootstrap.min.css";
-import "../css/font-awesome.min.css";
-import "../css/swiper.min.css";
+// Lib styles
+import "swiper/dist/css/swiper.min.css";
+
+// Custom styles
 import "../sass/style.sass";
 
-import "./jquery-3.3.1.min.js";
-import "./bootstrap.min.js";
-import "./swiper.min.js";
+// Libs
+import Swiper from "swiper";
 
-
-$('.container').addClass('active');
+$(document).ready(() => {
+  const testSlider = new Swiper(".test-slider");
+});

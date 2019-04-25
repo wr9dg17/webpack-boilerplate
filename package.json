@@ -12,7 +12,10 @@
   "keywords": [],
   "author": "wr9dg17",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "^3.4.0",
+    "swiper": "^4.4.6"
+  },
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",

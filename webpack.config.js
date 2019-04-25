@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlBeautifyPlugin = require("html-beautify-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -66,17 +67,22 @@ module.exports = {
       filename: "about.html",
       template: path.join(__dirname, "src/about.html")
     }),
-    new HtmlBeautifyPlugin({
-      config: {
-        html: {
-          end_with_newline: true,
-          indent_size: 4,
-          indent_with_tabs: true,
-          indent_inner_html: true,
-          preserve_newlines: true,
-          unformatted: ["p", "i", "b", "span"]
-        }
-      }
-    })
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery"
+    }),
+    // new HtmlBeautifyPlugin({
+    //   config: {
+    //     html: {
+    //       end_with_newline: true,
+    //       indent_size: 4,
+    //       indent_with_tabs: true,
+    //       indent_inner_html: true,
+    //       preserve_newlines: true,
+    //       unformatted: ["p", "i", "b", "span"]
+    //     }
+    //   }
+    // })
   ]
 };
