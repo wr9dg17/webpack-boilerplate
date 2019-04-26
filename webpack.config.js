@@ -42,10 +42,11 @@ module.exports = {
         }
       },
       {
-        test: /\.(woff(2)?|ttf|eot|otf)$/,
+        test: /\.(woff(2)?|ttf|eot|otf)$/i,
         loader: "file-loader",
         options: {
           outputPath: "fonts",
+          publicPath: "../fonts",
           name: "[name].[ext]"
         }
       }
