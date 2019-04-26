@@ -1,12 +1,12 @@
-// Lib styles
+// Styles
 import "swiper/dist/css/swiper.min.css";
-
-// Custom styles
-import "../sass/style.sass";
-
-// Libs
+import "../scss/style.scss";
+// Javascript
+import "./bootstrap";
 import Swiper from "swiper";
 
 $(document).ready(() => {
-  const testSlider = new Swiper(".test-slider");
+
+  console.log("Happy coding!");
+  
 });

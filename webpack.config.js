@@ -17,7 +17,7 @@ module.exports = {
         use: ["html-loader?interpolate"]
       },
       {
-        test: /\.(css|sass)$/,
+        test: /\.(css|scss)$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: ["css-loader", "sass-loader"]
@@ -63,15 +63,11 @@ module.exports = {
       filename: "index.html",
       template: path.join(__dirname, "src/index.html")
     }),
-    new HtmlWebpackPlugin({
-      filename: "about.html",
-      template: path.join(__dirname, "src/about.html")
-    }),
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery",
       "window.jQuery": "jquery"
-    }),
+    })
     // new HtmlBeautifyPlugin({
     //   config: {
     //     html: {
