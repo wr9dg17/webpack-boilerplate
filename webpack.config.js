@@ -12,9 +12,16 @@ module.exports = {
   },
   module: {
     rules: [
+      // {
+      //   test: /\.html$/,
+      //   use: ["html-loader?interpolate"]
+      // },
       {
-        test: /\.html$/,
-        use: ["html-loader?interpolate"]
+        test: /\.pug$/,
+        loader: "pug-loader",
+        options: {
+          pretty: true
+        }
       },
       {
         test: /\.(css|scss)$/,
@@ -60,26 +67,28 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin({ filename: "css/style.css" }),
+    // Pages
     new HtmlWebpackPlugin({
       filename: "index.html",
-      template: path.join(__dirname, "src/index.html")
+      template: path.join(__dirname, "src/pug/index.pug")
     }),
+    // End Pages
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery",
       "window.jQuery": "jquery"
+    }),
+    new HtmlBeautifyPlugin({
+      config: {
+        html: {
+          end_with_newline: true,
+          indent_size: 4,
+          indent_with_tabs: true,
+          indent_inner_html: true,
+          preserve_newlines: true,
+          unformatted: ["p", "i", "b", "span"]
+        }
+      }
     })
-    // new HtmlBeautifyPlugin({
-    //   config: {
-    //     html: {
-    //       end_with_newline: true,
-    //       indent_size: 4,
-    //       indent_with_tabs: true,
-    //       indent_inner_html: true,
-    //       preserve_newlines: true,
-    //       unformatted: ["p", "i", "b", "span"]
-    //     }
-    //   }
-    // })
   ]
 };
