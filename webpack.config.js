@@ -1,8 +1,40 @@
+const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlBeautifyPlugin = require("html-beautify-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+function generateHtmlWebpackPlugins(templatesDir) {
+  const templateFiles = fs.readdirSync(path.join(__dirname, templatesDir));
+
+  return templateFiles.map(item => {
+    const fileParts = item.split(".");
+    const name = fileParts[0];
+    const extension = fileParts[1];
+
+    return new HtmlWebpackPlugin({
+      filename: `${name}.html`,
+      template: path.join(__dirname, `${templatesDir}/${name}.${extension}`)
+    });
+  });
+}
+
+const htmlPlugins = generateHtmlWebpackPlugins("./src/pug/pages");
+const htmlBeautify = [
+  new HtmlBeautifyPlugin({
+    config: {
+      html: {
+        end_with_newline: true,
+        indent_size: 4,
+        indent_with_tabs: true,
+        indent_inner_html: true,
+        preserve_newlines: true,
+        unformatted: ["p", "i", "b", "span"]
+      }
+    }
+  })
+];
 
 module.exports = {
   entry: "./src/js/index.js",
@@ -67,28 +99,10 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin({ filename: "css/style.css" }),
-    // Pages
-    new HtmlWebpackPlugin({
-      filename: "index.html",
-      template: path.join(__dirname, "src/pug/index.pug")
-    }),
-    // End Pages
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery",
       "window.jQuery": "jquery"
-    }),
-    new HtmlBeautifyPlugin({
-      config: {
-        html: {
-          end_with_newline: true,
-          indent_size: 4,
-          indent_with_tabs: true,
-          indent_inner_html: true,
-          preserve_newlines: true,
-          unformatted: ["p", "i", "b", "span"]
-        }
-      }
     })
-  ]
+  ].concat(htmlPlugins, htmlBeautify)
 };
