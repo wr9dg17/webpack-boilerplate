@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlBeautifyPlugin = require("html-beautify-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 
 function generateHtmlWebpackPlugins(templatesDir) {
   const templateFiles = fs.readdirSync(path.join(__dirname, templatesDir));
@@ -44,10 +45,6 @@ module.exports = {
   },
   module: {
     rules: [
-      // {
-      //   test: /\.html$/,
-      //   use: ["html-loader?interpolate"]
-      // },
       {
         test: /\.pug$/,
         loader: "pug-loader",
@@ -58,6 +55,7 @@ module.exports = {
       {
         test: /\.(css|scss)$/,
         use: ExtractTextPlugin.extract({
+          publicPath: "../",
           fallback: "style-loader",
           use: ["css-loader", "sass-loader"]
         })
@@ -73,7 +71,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(jpg|jpeg|png|svg)$/i,
+        test: /\.(jpg|jpeg|png|svg|ico)$/i,
         loader: "file-loader",
         options: {
           outputPath: "images",
@@ -103,6 +101,11 @@ module.exports = {
       $: "jquery",
       jQuery: "jquery",
       "window.jQuery": "jquery"
+    }),
+    new BrowserSyncPlugin({
+      host: "localhost",
+      port: 8080,
+      server: { baseDir: ["dist"] }
     })
   ].concat(htmlPlugins, htmlBeautify)
 };
