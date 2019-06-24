@@ -72,11 +72,17 @@ module.exports = {
       },
       {
         test: /\.(jpg|jpeg|png|svg|ico)$/i,
-        loader: "file-loader",
-        options: {
-          outputPath: "images",
-          name: "[name].[ext]"
-        }
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[path][name].[ext]",
+              outputPath: (file) => {
+                return file.split("src/")[1];
+              }
+            }
+          }
+        ]
       },
       {
         test: /\.(woff(2)?|ttf|eot|otf)$/i,
