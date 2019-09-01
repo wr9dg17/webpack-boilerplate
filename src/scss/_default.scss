@@ -7,7 +7,6 @@
 
 html {
     font-size: 10px;
-    overflow-x: hidden !important;
 }
 
 body {
@@ -26,103 +25,18 @@ a, a:hover, a:focus {
 }
 
 button {
-    outline: none;
+    outline: none !important;
 }
 
 ul {
     margin: 0;
     padding: 0;
     list-style: none;
-
-    li {
-        display: inline-block;
-    }
 }
 
-.no-padding {
-    padding: 0;
-}
-
-.text-center {
-    text-align: center;
-}
-
-.flex {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.cover-center {
-    background: no-repeat center center;
-    background-size: cover;
-}
-
-div.swiper-lazy {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
+/* ***** -- bootstrap ***** */
 .form-group {
     .form-group {
         margin: 0;
-    }
-}
-
-/* ***** -- text editor ***** */
-.editor-body {
-    p {
-        margin: 0 0 2rem 0;
-
-        a {
-            display: inline;
-        }
-
-        strong {
-            display: inline;
-        }
-    }
-
-    &:last-child {
-        margin-bottom: 0;
-    }
-}
-
-/* ***** -- pagination ***** */
-.pagination {
-    border-radius: 0;
-
-    li {
-        margin: 0 .5rem 0 0;
-
-        a {
-            padding: .5rem 1.2rem;
-            background: #7ca0ae;
-            border-radius: .2rem;
-            border: none;
-            color: #fff;
-
-            &:hover {
-                color: #fff;
-            }
-        }
-
-        &.active {
-            a {
-                background: #ffb548;
-            }
-        }
-
-        &.disabled {
-            display: none;
-        }
     }
 }
