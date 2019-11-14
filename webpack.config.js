@@ -7,7 +7,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
-const mode = "development"; 
+const mode = "development";
 
 function generateHtmlWebpackPlugins(templatesDir) {
     const templateFiles = fs.readdirSync(path.join(__dirname, templatesDir));
@@ -51,6 +51,10 @@ const entry = {
 const output = {
     path: path.join(__dirname, "dist"),
     filename: "js/[name].js"
+};
+
+const externals = {
+    jquery: 'jQuery'
 };
 
 const optimization = {
@@ -136,13 +140,14 @@ const plugins = [
         port: 8080,
         server: { baseDir: ["dist"] }
     }),
-    mode == "development" ? new BundleAnalyzerPlugin() : null
+    // mode == "development" ? new BundleAnalyzerPlugin() : null
 ].concat(htmlPlugins, htmlBeautify);
 
 module.exports = {
     entry: entry,
     output: output,
-    optimization: optimization,
+    externals: externals,
+    // optimization: optimization,
     module: {
         rules: rules
     },

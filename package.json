@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "webpack-dev-server",
     "serve": "webpack -d --watch",
-    "prod": "npm run clean && webpack -p",
-    "clean": "rimraf ./dist/*"
+    "prod": "npm run clean && webpack -p --mode=production && npm run copy",
+    "clean": "rimraf ./dist/*",
+    "copy": "cp -a src/js/libs/. dist/js/"
   },
   "keywords": [],
   "author": "wr9dg17",
