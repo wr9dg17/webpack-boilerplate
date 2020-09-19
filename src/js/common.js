@@ -1,7 +1,6 @@
 // Styles
-import "../css/font-awesome.css";
 import "../scss/style.scss";
 
-$(document).ready(() => {
+$(document).ready(function() {
     console.log("Happy coding!");
 });

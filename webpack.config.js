@@ -1,10 +1,13 @@
 const fs = require("fs");
 const path = require("path");
+const glob = require("glob-all");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlBeautifyPlugin = require("html-beautify-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
+const PurifyCSSPlugin = require("purifycss-webpack");
+
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const mode = "development";
@@ -140,6 +143,13 @@ const plugins = [
         port: 8080,
         server: { baseDir: ["dist"] }
     }),
+    // new PurifyCSSPlugin({
+    //     paths: glob.sync([
+    //         path.join(__dirname, "src/**/*.pug"),
+    //         path.join(__dirname, "src/**/*.js")
+    //     ]),
+    //     minimize: true
+    // })
     // mode == "development" ? new BundleAnalyzerPlugin() : null
 ].concat(htmlPlugins, htmlBeautify);
 

@@ -19,12 +19,6 @@
     flex-wrap: wrap;
 }
 
-.flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .cover-center {
     background: no-repeat center center;
     background-size: cover;
@@ -32,9 +26,15 @@
 
 /* ***** -- text editor ***** */
 .editor-body {
-    p {
+    > * {
         margin: 0 0 2rem 0;
 
+        &:last-child {
+            margin: 0;
+        }
+    }
+
+    p {
         a {
             display: inline;
         }
@@ -42,9 +42,5 @@
         strong {
             display: inline;
         }
-    }
-
-    &:last-child {
-        margin-bottom: 0;
     }
 }
