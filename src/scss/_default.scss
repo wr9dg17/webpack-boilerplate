@@ -1,44 +1,49 @@
-*
-{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none !important;
 }
 
 html {
-    font-size: 10px;
+  font-size: 10px;
 }
 
 body {
-    font-size: 1.6rem;
-    font-family: "Muli", sans-serif;
-    overflow-x: hidden !important;
+  font-size: 1.6rem;
+  font-family: "Muli", sans-serif;
+  overflow-x: hidden !important;
 }
 
-h1, h2, h3, h4, h5, h6, p, hr {
-    margin: 0;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+hr {
+  margin: 0;
 }
 
-a, a:hover, a:focus {
-    text-decoration: none;
-    outline: none;
-}
-
-button {
-    outline: none !important;
+a,
+a:hover,
+a:focus {
+  text-decoration: none;
+  outline: none;
 }
 
 ul {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 /* ***** -- bootstrap ***** */
 .form-group {
-    .form-group {
-        margin: 0;
-    }
+  .form-group {
+    margin: 0;
+  }
 }

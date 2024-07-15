@@ -1,46 +1,46 @@
 .no-padding {
-    padding: 0;
+  padding: 0;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .text-left {
-    text-align: left;
+  text-align: left;
 }
 
 .text-right {
-    text-align: right;
+  text-align: right;
 }
 
 .flex {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .cover-center {
-    background: no-repeat center center;
-    background-size: cover;
+  background: no-repeat center center;
+  background-size: cover;
 }
 
 /* ***** -- text editor ***** */
 .editor-body {
-    > * {
-        margin: 0 0 2rem 0;
+  >* {
+    margin: 0 0 2rem 0;
 
-        &:last-child {
-            margin: 0;
-        }
+    &:last-child {
+      margin: 0;
+    }
+  }
+
+  p {
+    a {
+      display: inline;
     }
 
-    p {
-        a {
-            display: inline;
-        }
-
-        strong {
-            display: inline;
-        }
+    strong {
+      display: inline;
     }
+  }
 }

@@ -1,165 +1,101 @@
-const fs = require("fs");
 const path = require("path");
-const glob = require("glob-all");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const HtmlBeautifyPlugin = require("html-beautify-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
-const PurifyCSSPlugin = require("purifycss-webpack");
+const HandlebarsPlugin = require("handlebars-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-
-const mode = "development";
-
-function generateHtmlWebpackPlugins(templatesDir) {
-    const templateFiles = fs.readdirSync(path.join(__dirname, templatesDir));
-
-    return templateFiles.map(item => {
-        const fileParts = item.split(".");
-        const name = fileParts[0];
-        const extension = fileParts[1];
-
-        return new HtmlWebpackPlugin({
-            filename: `${name}.html`,
-            template: path.join(
-                __dirname,
-                `${templatesDir}/${name}.${extension}`
-            )
-        });
-    });
-}
-
-const htmlPlugins = generateHtmlWebpackPlugins("./src/pug/pages");
-
-const htmlBeautify = [
-    new HtmlBeautifyPlugin({
-        config: {
-            html: {
-                end_with_newline: true,
-                indent_size: 4,
-                indent_with_tabs: true,
-                indent_inner_html: true,
-                preserve_newlines: true,
-                unformatted: ["p", "i", "b", "span"]
-            }
-        }
-    })
-];
-
-const entry = {
-    common: "./src/js/common.js"
-};
-
-const output = {
-    path: path.join(__dirname, "dist"),
-    filename: "js/[name].js"
-};
-
-const externals = {
-    jquery: 'jQuery'
-};
-
-const optimization = {
-    namedChunks: true,
-    splitChunks: {
-        cacheGroups: {
-            jquery: {
-                test: /[\\/]node_modules[\\/](jquery)[\\/]/,
-                name: "jquery",
-                chunks: "all"
-            }
-            // vendorGroup: {
-            //     test: /[\\/]node_modules[\\/]((?!(jquery)).*).*\.js$/,
-            //     name: "group-name",
-            //     chunks: 'all'
-            // }
-        }
-    }
-};
-
-const rules = [
-    {
-        test: /\.pug$/,
-        loader: "pug-loader",
-        options: {
-            pretty: true
-        }
+module.exports = (_, args) => {
+  return {
+    mode: args.mode || "development",
+    entry: {
+      common: "./src/js/common.js",
     },
-    {
-        test: /\.(css|scss)$/,
-        use: ExtractTextPlugin.extract({
-            publicPath: "../",
-            fallback: "style-loader",
-            use: ["css-loader", "sass-loader"]
-        })
+    output: {
+      path: path.join(__dirname, "dist"),
+      filename: "js/[name].js",
     },
-    {
-        test: /\.m?js$/,
-        exclude: /(node_modules)/,
-        use: {
+    module: {
+      rules: [
+        {
+          test: /\.hbs$/,
+          loader: "handlebars-loader",
+        },
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
             loader: "babel-loader",
             options: {
-                presets: ["@babel/preset-env"]
-            }
-        }
-    },
-    {
-        test: /\.(jpg|jpeg|png|svg|ico)$/i,
-        use: [
+              presets: ["@babel/preset-env"],
+            },
+          },
+        },
+        {
+          test: /\.s[ac]ss$/i,
+          use: [
+            MiniCssExtractPlugin.loader,
+            "css-loader",
             {
-                loader: "file-loader",
-                options: {
-                    name: "[path][name].[ext]",
-                    outputPath: file => {
-                        return file.split("src/")[1];
-                    }
-                }
-            }
-        ]
+              loader: "postcss-loader",
+              options: {
+                postcssOptions: {
+                  plugins: function () {
+                    return [require("autoprefixer")];
+                  },
+                },
+              },
+            },
+            "sass-loader",
+          ],
+        },
+        {
+          test: /\.(jpg|jpeg|png|svg|ico)$/i,
+          type: "asset/resource",
+          generator: {
+            filename: "[path][name].[ext]",
+          },
+        },
+        {
+          test: /\.(woff(2)?|ttf|eot|otf)$/i,
+          type: "asset/resource",
+          generator: {
+            filename: "fonts/[name].[ext]",
+          },
+        },
+      ],
     },
-    {
-        test: /\.(woff(2)?|ttf|eot|otf)$/i,
-        loader: "file-loader",
-        options: {
-            outputPath: "fonts",
-            publicPath: "../fonts",
-            name: "[name].[ext]"
-        }
-    }
-];
-
-const plugins = [
-    new ExtractTextPlugin({
-        filename: "css/style.css"
-    }),
-    new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery",
-        "window.jQuery": "jquery"
-    }),
-    new BrowserSyncPlugin({
-        host: "localhost",
-        port: 8080,
-        server: { baseDir: ["dist"] }
-    }),
-    // new PurifyCSSPlugin({
-    //     paths: glob.sync([
-    //         path.join(__dirname, "src/**/*.pug"),
-    //         path.join(__dirname, "src/**/*.js")
-    //     ]),
-    //     minimize: true
-    // })
-    // mode == "development" ? new BundleAnalyzerPlugin() : null
-].concat(htmlPlugins, htmlBeautify);
-
-module.exports = {
-    entry: entry,
-    output: output,
-    externals: externals,
-    // optimization: optimization,
-    module: {
-        rules: rules
+    plugins: [
+      new HandlebarsPlugin({
+        entry: path.join(__dirname, "src", "templates", "pages", "*.hbs"),
+        partials: [
+          path.join(__dirname, "src", "templates", "partials", "*.hbs"),
+        ],
+        output: path.join(__dirname, "dist", "[name].html"),
+      }),
+      new MiniCssExtractPlugin({
+        filename: "css/style.css",
+      }),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.join(__dirname, "src/images"),
+            to: path.join(__dirname, "dist/images"),
+          },
+        ],
+      }),
+    ],
+    devServer: {
+      static: "./dist",
+      hot: true,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+      allowedHosts: "all",
+      client: {
+        overlay: {
+          warnings: false,
+          errors: true,
+        },
+      },
     },
-    plugins: plugins
+  };
 };
