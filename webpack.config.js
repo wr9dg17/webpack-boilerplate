@@ -44,7 +44,14 @@ module.exports = (_, args) => {
                 },
               },
             },
-            "sass-loader",
+            {
+              loader: "sass-loader",
+              options: {
+                sassOptions: {
+                  quietDeps: true,
+                }
+              }
+            },
           ],
         },
         {
